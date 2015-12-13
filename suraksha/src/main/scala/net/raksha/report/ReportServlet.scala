@@ -14,4 +14,17 @@ class ReportServlet extends SurakshaStack {
     </html>
   }
 
+
+  get("/report/:id"){
+        val id = params("id");
+        val lat = params("lat")
+        val lng = params("lng")
+        val mode = params("mode")
+
+        println("ID : "+id+"\nlat : "+lat+"\nlng : "+lng+"\nmode : "+mode)
+
+
+  }
+
+
 }
