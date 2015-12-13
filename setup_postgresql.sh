@@ -14,13 +14,16 @@ sudo /etc/init.d/postgresql restart
 
 # CREATE USER power_user SUPERUSER;
 # ALTER USER power_user WITH PASSWORD 'password';
-# CREATE USER app_user NOSUPERUSER;
-# ALTER USER app_user WITH PASSWORD ‘password’;
-# CREATE DATABASE application WITH OWNER app_user;
+# CREATE USER suraksha_user NOSUPERUSER;
+# ALTER USER suraksha_user WITH PASSWORD ‘password’;
+# CREATE DATABASE suraksha_db WITH OWNER suraksha_user;
 
 
 #sudo vim /etc/postgresql/9.3/main/pg_hba.conf
 #replace peer with md5
+#restart the dbfor it to take effect 
+#	sudo /etc/init.d/postgresql restart
 
-#psql -U app_user application
+
+#psql -U suraksha_user suraksha_db
 
