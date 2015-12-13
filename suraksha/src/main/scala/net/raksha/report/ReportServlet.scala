@@ -21,7 +21,16 @@ class ReportServlet extends SurakshaStack {
         val lng = params("lng")
         val mode = params("mode")
 
-        println("ID : "+id+"\nlat : "+lat+"\nlng : "+lng+"\nmode : "+mode)
+	val prtString = "ID : "+id+"\nlat : "+lat+"\nlng : "+lng+"\nmode : "+mode
+
+        println(prtString)
+
+    <html>
+      <body>
+        <h1> {prtString}</h1>
+      </body>
+    </html>
+
 
 
   }
