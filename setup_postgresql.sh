@@ -27,3 +27,11 @@ sudo /etc/init.d/postgresql restart
 
 #psql -U suraksha_user suraksha_db
 
+#CREATE TABLE ASSAULTS (
+#    ID        char(20) NOT NULL,
+#    LAT       varchar(10) NOT NULL,
+#    LNT       varchar(10) NOT NULL,
+#    DATE      date NOT NULL,
+#    MODE      integer NOT NULL
+#);
+
