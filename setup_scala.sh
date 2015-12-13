@@ -12,4 +12,5 @@ curl https://raw.githubusercontent.com/n8han/conscript/master/setup.sh | sh
 #export PATH=$PATH:/home/ubuntu/bin/
  
 cs n8han/giter8
+g8 scalatra/scalatra-sbt 
 
