@@ -29,9 +29,9 @@ sudo /etc/init.d/postgresql restart
 
 #CREATE TABLE ASSAULTS (
 #    ID        char(20) NOT NULL,
-#    LAT       varchar(10) NOT NULL,
-#    LNT       varchar(10) NOT NULL,
-#    DATE      date NOT NULL,
+#    LAT       varchar(20) NOT NULL,
+#    LNT       varchar(20) NOT NULL,
+#    timestamp      TIMESTAMP NOT NULL,
 #    MODE      integer NOT NULL
 #);
 
