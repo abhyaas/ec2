@@ -7,7 +7,11 @@ import scalate.ScalateSupport
 import slick.driver.JdbcDriver.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+
 import java.sql.Timestamp
+import scala.concurrent.{Future, Await}
+
 
 class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase with FutureSupport {
 
@@ -42,6 +46,7 @@ class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase wi
 	val toRun  = Tables.insertAssault(id,lat,lng,new Timestamp(System.currentTimeMillis),mode);
         println(toRun)
 	val ret = db.run(toRun)
+	Await.result(ret, Duration.Inf)
 	println(ret)
 	Thread.sleep(1000);
 
