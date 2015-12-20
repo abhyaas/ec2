@@ -7,13 +7,16 @@ import scalate.ScalateSupport
 import slick.driver.JdbcDriver.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import java.sql.Timestamp
 
-
-class ReportServlet extends SurakshaStack with ScalatraBase with FutureSupport {
+class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase with FutureSupport {
 
 	protected implicit def executor = scala.concurrent.ExecutionContext.Implicits.global
 
-	def db: Database
+        println(db.getClass)
+	db.run(DBIO.seq(Tables.assaults += ("id", "lat"," lng", new Timestamp(0), 1)));
+        println(db.getClass)
+
 
   get("/") {
     <html>
@@ -29,14 +32,19 @@ class ReportServlet extends SurakshaStack with ScalatraBase with FutureSupport {
         val id = params("id");
         val lat = params("lat")
         val lng = params("lng")
-        val mode = params("mode")
+        val mode = params("mode").toInt
 
 	val prtString = "ID : "+id+"\nlat : "+lat+"\nlng : "+lng+"\nmode : "+mode
 
 
 
         println(prtString)
-	Tables.insertAssault(id,lat,lng,new java.sql.Date,mode)
+	val toRun  = Tables.insertAssault(id,lat,lng,new Timestamp(System.currentTimeMillis),mode);
+        println(toRun)
+	val ret = db.run(toRun)
+	println(ret)
+	Thread.sleep(1000);
+
 
     <html>
       <body>
@@ -49,23 +57,29 @@ class ReportServlet extends SurakshaStack with ScalatraBase with FutureSupport {
   }
 
 
+}
 
 
 object Tables {
 
  	 // Definition of the ASSAULTS table
-  class ASSAULTS(tag: Tag) extends Table[(String, String, String,DATE, Int)](tag, "ASSAULTS") {
+  class ASSAULTS(tag: Tag) extends Table[(String, String, String,Timestamp, Int)](tag, "ASSAULTS") {
     def id = column[String]("ID") // This is the primary key column
     def lat = column[String]("LAT")
     def lng = column[String]("LNG")
-    def timestamp = column[String]("TIMESTAMP")
-    def mode = column[String]("MODE")
+    def timestamp = column[Timestamp]("TIMESTAMP")
+    def mode = column[Int]("MODE")
 
     // Every table needs a * projection with the same type as the table's type parameter
     def * = (id, lat, lng, timestamp, mode)
   }
-	def insertAssault(id:String, lat:String, lng:String, timestamp:Date, mode:Int) = DBIO.seq(
-	  Tables.ASSAULTS += (id, lat, lng, timestamp, mode);
-  )
-)
+
+ val assaults = TableQuery[ASSAULTS]
+
+  def insertAssault(id:String, lat:String, lng:String, timestamp:Timestamp, mode:Int) = {
+	println("inserting intothe table")
+	 DBIO.seq(
+   	 Tables.assaults += (id, lat, lng, timestamp, mode)
+ 	 );
+  }
 }
