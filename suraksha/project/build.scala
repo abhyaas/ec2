@@ -31,6 +31,7 @@ object SurakshaBuild extends Build {
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
 	"com.typesafe.slick" %% "slick" % "3.0.2",
 	"com.mchange" % "c3p0" % "0.9.5.1",
+	"org.postgresql" % "postgresql" % "9.3-1100-jdbc4",	
 	"org.slf4j" % "slf4j-nop" % "1.6.4"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
