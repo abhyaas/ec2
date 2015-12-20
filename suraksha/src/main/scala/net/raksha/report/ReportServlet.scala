@@ -68,12 +68,12 @@ class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase wi
 object Tables {
 
  	 // Definition of the ASSAULTS table
-  class ASSAULTS(tag: Tag) extends Table[(String, String, String,Timestamp, Int)](tag, "ASSAULTS") {
-    def id = column[String]("ID") // This is the primary key column
-    def lat = column[String]("LAT")
-    def lng = column[String]("LNG")
-    def timestamp = column[Timestamp]("TIMESTAMP")
-    def mode = column[Int]("MODE")
+  class ASSAULTS(tag:Tag) extends Table[(String, String, String,Timestamp, Int)](tag,Some("public"), "assaults") {
+    def id = column[String]("id") // This is the primary key column
+    def lat = column[String]("lat")
+    def lng = column[String]("lng")
+    def timestamp = column[Timestamp]("timestamp")
+    def mode = column[Int]("mode")
 
     // Every table needs a * projection with the same type as the table's type parameter
     def * = (id, lat, lng, timestamp, mode)
