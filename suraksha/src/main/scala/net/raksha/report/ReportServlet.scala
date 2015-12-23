@@ -20,15 +20,36 @@ class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase wi
         println(db.getClass)
 	db.run(DBIO.seq(Tables.assaults += ("id", "lat"," lng", new Timestamp(0), 1)));
         println(db.getClass)
+	
+	val heatmap = scala.io.Source.fromFile("./src/main/html/sample-heatmap.html").mkString
 
+	
 
   get("/") {
     <html>
       <body>
-        <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello to Scalate</a>.
+        <h1>aHello, world!</h1>
+	
+	        Say <a href="hello-scalate">hello to Scalate </a>.
+	<h2>{ System.getProperty("user.dir")}</h2>
       </body>
     </html>
+  }
+
+ val heatmap_ = "<html>"+
+     " <body>"+
+       " <h1>Hello, world!</h1>"+
+       " Say <a href=\"hello-scalate\">hello to Scalate</a>."+
+     " </body>"+
+   " </html>";
+
+
+  get("/heatmap/"){
+
+contentType="text/html"
+	heatmap
+
+
   }
 
 
