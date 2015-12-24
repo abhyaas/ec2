@@ -6,7 +6,7 @@ import scalate.ScalateSupport
 
 import slick.driver.JdbcDriver.api._
 
-import scala.concurrent.ExecutionContext.Implicits.global
+//import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 
 import java.sql.Timestamp
@@ -17,9 +17,6 @@ class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase wi
 
 	protected implicit def executor = scala.concurrent.ExecutionContext.Implicits.global
 
-        println(db.getClass)
-	db.run(DBIO.seq(Tables.assaults += ("id", "lat"," lng", new Timestamp(0), 1)));
-        println(db.getClass)
 	
 	val heatmap = scala.io.Source.fromFile("./src/main/html/sample-heatmap.html").mkString
 
@@ -36,19 +33,30 @@ class ReportServlet(val db: Database) extends SurakshaStack with ScalatraBase wi
     </html>
   }
 
- val heatmap_ = "<html>"+
-     " <body>"+
-       " <h1>Hello, world!</h1>"+
-       " Say <a href=\"hello-scalate\">hello to Scalate</a>."+
-     " </body>"+
-   " </html>";
-
-
   get("/heatmap/"){
 
-contentType="text/html"
-	heatmap
 
+	contentType="text/html"
+
+/**
+	val latLongs = db.run(Tables.getGoogleLatLongs.result) map { xs =>
+		xs map { case(lat,lng) => f"new google.maps.LatLng($lat,$lng)" } mkString ","
+	};
+  	println(latLongs)
+	latLongs.map(x => println(x) )
+	heatmap.replace("LAT_LONG_LIST_HERE",latLongs.value.get.get);
+
+       heatmap.replace("LAT_LONG_LIST_HERE",db.run(Tables.getGoogleLatLongs.result) map { xs =>
+                xs map { case(lat,lng) => f"new google.maps.LatLng($lat,$lng)" } mkString ","
+        });
+
+*/
+
+db.run(Tables.getGoogleLatLongs.result) map { xs =>
+      contentType = "text/html"
+
+               heatmap.replace("LAT_LONG_LIST_HERE", xs map { case(lat,lng) => f"new google.maps.LatLng($lat,$lng)" } mkString ",")
+        }
 
   }
 
@@ -71,7 +79,7 @@ contentType="text/html"
 	println(ret)
 	Thread.sleep(1000);
 
-
+     contentType = "text/html"
     <html>
       <body>
         <h1> {prtString}</h1>
@@ -108,4 +116,13 @@ object Tables {
    	 Tables.assaults += (id, lat, lng, timestamp, mode)
  	 );
   }
+
+
+  val getGoogleLatLongs = {
+	for {
+	    c <- assaults
+	  } yield (c.lat, c.lng)
+  }
+
+
 }
