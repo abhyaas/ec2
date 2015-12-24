@@ -53,7 +53,7 @@ var map, heatmap;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13,
-    center: {lat: 37.775, lng: -122.434},
+    center: {lat: 28.609731, lng: 77.229671},
     mapTypeId: google.maps.MapTypeId.SATELLITE
   });
 
@@ -98,14 +98,10 @@ function changeOpacity() {
 // Heatmap data: 500 Points
 function getPoints() {
   return [
-    new google.maps.LatLng(37.782551, -122.445368),
-    new google.maps.LatLng(37.782745, -122.444586),
-    new google.maps.LatLng(37.755503, -122.403406),
-    new google.maps.LatLng(37.754665, -122.403242),
-    new google.maps.LatLng(37.753837, -122.403172),
-    new google.maps.LatLng(37.752986, -122.403112),
-    new google.maps.LatLng(37.751266, -122.403355)
+    //new google.maps.LatLng(37.782551, -122.445368),
+    LAT_LONG_LIST_HERE
   ];
+
 }
 
     </script>
